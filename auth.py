@@ -27,7 +27,7 @@ def login():
     user = User.query.filter_by(email=data['email']).first()
     if not user or not check_password_hash(user.password_hash, data['password']):
         return jsonify({'error': 'Invalid credentials'}), 401
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
     return jsonify({'access_token': token, 'user': {'id': user.id, 'name': user.name}}), 200
 
 @auth_bp.route('/auth/reset-request', methods=['POST'])
