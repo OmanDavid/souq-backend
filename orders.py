@@ -8,7 +8,7 @@ orders_bp = Blueprint('orders', __name__)
 @orders_bp.route('/orders', methods=['GET'])
 @jwt_required()
 def get_orders():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     orders = Order.query.filter_by(user_id=user_id).all()
     return jsonify([{
         'id': o.id, 'status': o.status, 'total': o.total,
@@ -19,7 +19,7 @@ def get_orders():
 @orders_bp.route('/orders/<int:id>', methods=['GET'])
 @jwt_required()
 def get_order(id):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     order = Order.query.get_or_404(id)
     if order.user_id != user_id:
         return jsonify({'error': 'Not your order'}), 403
@@ -32,7 +32,7 @@ def get_order(id):
 @orders_bp.route('/orders', methods=['POST'])
 @jwt_required()
 def create_order():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     product_ids = data['product_ids']  # list of product ids being bought
     products = Product.query.filter(Product.id.in_(product_ids)).all()
@@ -53,7 +53,7 @@ def create_order():
 @orders_bp.route('/orders/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_order(id):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     order = Order.query.get_or_404(id)
     if order.user_id != user_id:
         return jsonify({'error': 'Not your order'}), 403
@@ -66,7 +66,7 @@ def update_order(id):
 @orders_bp.route('/orders/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_order(id):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     order = Order.query.get_or_404(id)
     if order.user_id != user_id:
         return jsonify({'error': 'Not your order'}), 403
