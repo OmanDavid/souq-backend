@@ -5,6 +5,7 @@ from flask_cors import CORS
 from models import db
 from auth import auth_bp
 from products import products_bp
+from orders import orders_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///souq.db'
@@ -15,6 +16,7 @@ JWTManager(app)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(products_bp)
+app.register_blueprint(orders_bp)
 
 with app.app_context():
     db.create_all()
