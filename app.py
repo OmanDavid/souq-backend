@@ -10,7 +10,7 @@ from orders import orders_bp
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///souq.db'
 app.config['JWT_SECRET_KEY'] = 'change-this-later'
-CORS(app)
+CORS(app, origins=["https://souq-frontend.onrender.com", "http://localhost:3000"])
 db.init_app(app)
 JWTManager(app)
 
